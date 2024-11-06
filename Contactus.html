@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {  
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form {
+            flex: 1;
+            margin-right: 40px;
+            min-width: 280px;
+        }
+
+        .contact-info {
+            flex: 1;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            min-width: 250px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #8f1212;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+
+        textarea {
+            height: 150px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #8f1212;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #8f1212;
+        }
+
+        .contact-info h2 {
+            margin-bottom: 20px;
+            color: #8f1212;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .contact-info strong {
+            font-size: 17px;
+            color: #333;
+        }
+
+        /* Popup styling */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #d3cfcf;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            z-index: 10;
+        }
+
+        .popup.active {
+            display: block;
+        }
+
+        .popup h3 {
+            color: #8f1212;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .contact-form {
+                margin-right: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Contact Us</h1>
+
+    <div class="container">
+        <!-- Contact Form Section -->
+        <div class="contact-form">
+            <form id="contact-form">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your Name" required>
+                
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" placeholder="Your Email" required>
+                
+                <label for="subject">Subject *</label>
+                <input type="text" id="subject" name="subject" placeholder="Subject" required>
+                
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Write your message here..."></textarea>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <!-- Contact Info Section -->
+        <div class="contact-info">
+            <h2>Our Office</h2>
+            <p><strong>Address:</strong> #1-8-303/48/9, Tirumala Chambers, Penderghast Road, Sindhi Colony, Begumpet, Hyderabad, Telangana-500016.</p>
+            <p><strong>Phone:</strong> +6303880568</p>
+            <p><strong>Email:</strong> stride1360@gmail.com</p>
+        </div>
+    </div>
+
+    <!-- Popup Section -->
+    <div class="popup" id="popup">
+        <h3>Thanks for contacting us!</h3>
+        <p>We will get back to you shortly.</p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+    <script>
+        // Initialize EmailJS
+        (function() {
+            emailjs.init('YOUR_USER_ID');  // Replace with your EmailJS User ID
+        })();
+
+        // Handle form submission
+        document.getElementById('contact-form').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            // Send email using EmailJS
+            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+                name: name,
+                email: email,
+                subject: subject,
+                message: message
+            })
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                
+                // Show the popup
+                document.getElementById('popup').classList.add('active');
+                
+                // Hide popup after 3 seconds
+                setTimeout(function() {
+                    document.getElementById('popup').classList.remove('active');
+                }, 3000);
+            }, function(error) {
+                console.log('FAILED...', error);
+            });
+        });
+    </script>
+
+</body>
+</html>
